@@ -15,40 +15,41 @@ CRITICAL: Keep this current. Stale context is worse than no context.
 
 - M01 complete: Repository scaffolded, memory bank populated, scope bounded
 - M02 complete: GitHub Project configured with milestones M03-M08, 18 tasks created
-- Discovered existing processed datasets (theelderemo/FULL_EPSTEIN_INDEX, epsteinsblackbook.com)
-- Revised milestone structure to leverage existing Layer 0 work
+- M03 complete: Source evaluation, L0 import with provenance documentation
+  - Flight logs: 5,001 records from Internet Archive PDF
+  - Black book: 2,324 records from epsteinsblackbook.com
+  - Reproducible extraction scripts with `--verify-only` flags
+  - Full SHA-256 provenance chains documented
 
 ### Current Phase
 
-We are currently in **Milestone 03: Source Evaluation & Import** which involves evaluating existing datasets, selecting authoritative sources, and importing with provenance documentation.
+We are currently in **Milestone 04: Layer 0 Validation** which involves schema definition, quality audit, and preparation for PostgreSQL import.
 
 ### Active Work
 
 Next session should begin:
 
-1. **Task 3.1:** Evaluate existing datasets against project criteria
-2. Download and assess theelderemo HuggingFace dataset
-3. Compare with epsteinsblackbook.com structured CSVs
-4. Document evaluation findings in research/
+1. **Task 4.1:** Define formal JSON schemas for both datasets
+2. **Task 4.2:** Run comprehensive quality audit
+3. **Task 4.3:** Document data quality issues for L1 consideration
 
 ## Next Steps
 
 ### Immediate (Next Session)
 
-1. Download theelderemo/FULL_EPSTEIN_INDEX from HuggingFace
-2. Download epsteinsblackbook.com CSVs (flight-manifest-rows.txt, black-book-lines.txt)
-3. Assess coverage, quality, and schema usability
-4. Create evaluation matrix in research/
+1. Create JSON schema definitions in `data/layer-0-canonical/schema/`
+2. Build validation scripts against schemas
+3. Audit data quality (nulls, format consistency, edge cases)
+4. Document findings for L1 processing decisions
 
-### Near-Term (M03-M04)
+### Near-Term (M04-M05)
 
-- Task 3.2: Select and document sources with provenance chain
-- Task 3.3: Import to repo structure (data/layer-0-canonical/)
-- M04: Schema definition and quality audit
+- PostgreSQL table creation from schemas
+- Import L0 CSVs to database
+- M05: Layer 1 entity extraction and normalization
 
 ### Future / Backlog
 
-- M05: Layer 1 entity extraction and normalization
 - M06: Layer 2 vector embeddings
 - M07: Layer 3 graph relationships
 - M08: Web interface at epsteinfiles.dev
@@ -58,16 +59,16 @@ Next session should begin:
 
 ### Pending Decisions
 
-- **Primary data source:** theelderemo HuggingFace vs. epsteinsblackbook.com vs. combination. Decide in Task 3.1.
 - **Vector database choice:** pgvector (aligned with cluster) vs. dedicated vector DB. Leaning pgvector for simplicity.
 - **Graph storage:** Neo4j vs. PostgreSQL with recursive CTEs. Defer until M07.
+- **Entity resolution approach:** Rule-based vs. ML-based for L1 name matching. Evaluate in M05.
 
 ### Recent Decisions
 
-- **2026-02-01 - Leverage existing Layer 0:** Multiple quality datasets exist with OCR'd content. ARD value is in Layers 1-3, not re-doing canonicalization work. Revised milestones accordingly.
-- **2026-02-01 - Tasks as work units:** Project scale doesn't warrant sub-task hierarchy. Tasks are session-sized discrete units.
-- **2026-02-01 - No due dates:** Dynamic schedule; milestones ordered but not time-boxed.
-- **2026-02-01 - Bounded starter corpus:** Flight Logs + Black Book maintained as scope. Other DOJ releases deferred.
+- **2026-02-01 - Internet Archive for flight logs:** Pre-structured 22-column format with 82% passenger identification beat alternatives.
+- **2026-02-01 - epsteinsblackbook.com for black book:** Row-level Wayback provenance links, already parsed fields.
+- **2026-02-01 - Minimal L0 transformation:** Schema preserved for PostgreSQL materialization; transformations happen in SQL.
+- **2026-02-01 - Deterministic UUIDs:** record_id derived from row content hash for reproducibility.
 
 ## Blockers and Dependencies
 
@@ -77,20 +78,29 @@ Next session should begin:
 
 ### External Dependencies
 
-- **theelderemo/FULL_EPSTEIN_INDEX:** HuggingFace dataset availability
-- **epsteinsblackbook.com:** Structured CSV downloads
-- **DOJ Epstein Library:** Reference for provenance chain (justice.gov/epstein)
+- PostgreSQL instance for L1+ processing (cluster resource)
+
+## Layer 0 Inventory
+
+| Dataset | Records | File | SHA-256 |
+|---------|---------|------|---------|
+| Flight Logs | 5,001 | `flight-logs.csv` | `af9ed4eb...` |
+| Black Book | 2,324 | `black-book.csv` | `2ab19186...` |
 
 ## Notes and Observations
 
-### Existing Datasets Identified (M02)
+### Data Quality Notes (for M04)
 
-| Source | Content | Notes |
-|--------|---------|-------|
-| theelderemo/FULL_EPSTEIN_INDEX | HuggingFace dataset, all DOJ releases | MIT licensed, same ethical guidelines |
-| epsteinsblackbook.com/files | Structured CSVs for both document types | Clean, queryable format |
-| Martin-dev-prog/Full-Epstein-Flights | Flight routes with airports.csv | Geographic data |
+**Flight Logs:**
+- 17.7% passengers marked "Unknown" (initials only)
+- Coverage ends September 2002
+- No crew manifest data
+
+**Black Book:**
+- 34% missing country field
+- 17% email coverage (expected for era)
+- Some entries are organizations, not individuals
 
 ### Context for Next Session
 
-Begin M03 Task 3.1. GitHub Project is configured—use issue tracking for progress. Reference `work-logs/02-github-project-frameout/README.md` for M02 decisions.
+Begin M04 with schema definition. Reference `research/source-analysis/` for column definitions. L0 data is validated and ready for formal schema work.

@@ -5,7 +5,7 @@ description: "Analysis Ready Dataset applying the ARD layer model to DOJ-release
 author: "VintageDon"
 orcid: "0009-0008-7695-4093"
 date: "2026-02-01"
-version: "0.2"
+version: "0.3"
 status: "Active"
 tags:
   - type: project-root
@@ -29,6 +29,23 @@ related_documents:
 > An Analysis Ready Dataset transforming DOJ Epstein investigation files into a queryable, enriched corpus with pre-computed entity resolution, document classification, and relationship graphs.
 
 This project applies the [ARD layer model](https://github.com/vintagedon/analysis-ready-dataset) to publicly released documents from the Jeffrey Epstein investigation. Rather than distributing raw scans and expecting each researcher to independently extract entities, resolve names, and build relationship maps, this ARD front-loads that computational work—performing expensive operations once with rigor so others don't have to repeat them.
+
+---
+
+## ⚠️ Responsible Use
+
+This project processes sensitive documents related to serious crimes. We are committed to ethical data handling:
+
+Victim Protection: We anonymize victim-identifying information in all processed outputs. While unredacted source materials exist publicly, we choose not to perpetuate the exposure of individuals who did not consent to public identification. Researchers using this dataset should maintain the same standard.
+
+What This Means in Practice:
+
+- Victim names, when identifiable, are replaced with anonymized identifiers
+- We do not provide tools or guidance for de-anonymizing protected individuals
+- Entity resolution focuses on subjects of investigation, not victims
+- We acknowledge that determined actors could cross-reference with public sources—we cannot prevent this, but we will not facilitate it
+
+This is a conscious choice to prioritize victim dignity over dataset completeness.
 
 ---
 
@@ -61,24 +78,38 @@ This is also a learning project. The ARD is being built alongside the [IBM RAG a
 |------|--------|-------------|
 | Repository Setup | ✅ Complete | M01: Scaffolding, memory bank, scope definition |
 | GitHub Project | ✅ Complete | M02: Milestones, labels, 18 tasks configured |
-| Source Evaluation | 🔄 In Progress | M03: Evaluating existing datasets |
-| Layer 0: Canonical | ⬜ Planned | M04: Schema validation, quality audit |
+| Source Evaluation | ✅ Complete | M03: Source selection, L0 import with provenance |
+| Layer 0: Canonical | 🔄 In Progress | M04: Schema validation, quality audit |
 | Layer 1: Scalars | ⬜ Planned | M05: Entity extraction, classification |
 | Layer 2: Vectors | ⬜ Planned | M06: Embeddings, similarity search |
 | Layer 3: Graphs | ⬜ Planned | M07: Entity resolution, relationships |
 | Web Interface | ⬜ Planned | M08: Public search at epsteinfiles.dev |
 
-### Standing on Shoulders
+---
 
-During M02 planning, we identified several quality existing datasets that have already performed OCR and initial structuring:
+## 📂 Data Sources
 
-| Source | Content | License |
-|--------|---------|---------|
-| [theelderemo/FULL_EPSTEIN_INDEX](https://github.com/theelderemo/FULL_EPSTEIN_INDEX) | HuggingFace dataset, all DOJ releases | MIT |
-| [epsteinsblackbook.com](https://epsteinsblackbook.com/files) | Structured CSVs for Flight Logs and Black Book | Public |
-| [Martin-dev-prog/Full-Epstein-Flights](https://github.com/Martin-dev-prog/Full-Epstein-Flights) | Flight routes with airport coordinates | Public |
+This project uses two primary sources for the bounded starter corpus:
 
-The ARD methodology assumes you inherit from whatever layer exists. Since Layer 0 canonicalization is largely done, our value-add is in Layers 1-3: entity extraction, embeddings, and relationship graphs.
+| Source | Dataset | Records | Provenance |
+|--------|---------|---------|------------|
+| [Internet Archive](https://archive.org/details/epstein-flight-logs-unredacted_202304) | Flight Logs | 5,001 | Bradley Edwards court exhibits (Epstein v. Edwards) |
+| [epsteinsblackbook.com](https://epsteinsblackbook.com/files) | Black Book | 2,324 | Wayback Machine archived scans |
+
+Full provenance documentation including SHA-256 hashes is available in [research/source-analysis/](research/source-analysis/).
+
+### Why These Sources?
+
+During M03, we evaluated multiple existing datasets:
+
+| Source | Assessment | Decision |
+|--------|------------|----------|
+| Internet Archive flight logs PDF | Pre-structured 22-column format, 82% passenger identification | ✅ Selected |
+| epsteinsblackbook.com black book CSV | Row-level Wayback provenance, parsed fields | ✅ Selected |
+| epsteinsblackbook.com flight CSV | OCR artifacts, only 3 columns | ❌ Rejected |
+| theelderemo/FULL_EPSTEIN_INDEX | Quality work, but 32K documents exceeds bounded scope | ⏸️ Deferred |
+
+The ARD methodology assumes you inherit from whatever layer exists. We selected the highest-quality existing extractions and will add value through Layers 1-3.
 
 ---
 
@@ -92,10 +123,10 @@ Each layer builds on the one below, enabling progressively richer query patterns
 
 ### Initial Scope: Bounded Starter Corpus
 
-| Document Set | Size | Structure | Value |
-|--------------|------|-----------|-------|
-| Flight Logs | ~118 pages | Tabular (date, route, passengers) | Temporal patterns, co-occurrence |
-| Black Book | ~92 pages | Contact directory (names, phones, addresses) | Entity baseline, relationship seeds |
+| Document Set | Records | Structure | Value |
+|--------------|---------|-----------|-------|
+| Flight Logs | 5,001 | Tabular (date, route, passengers) | Temporal patterns, co-occurrence |
+| Black Book | 2,324 | Contact directory (names, phones, addresses) | Entity baseline, relationship seeds |
 
 These two datasets are highly structured, naturally joinable, and provide concrete deliverables while the methodology matures.
 
@@ -147,7 +178,7 @@ This project operates under strict ethical guidelines:
 | Principle | Implementation |
 |-----------|----------------|
 | Respect Redactions | Honor all redactions in source documents |
-| Protect Victims | Scrub/anonymize any discovered victim-identifying information |
+| Protect Victims | Anonymize victim-identifying information (see [Responsible Use](#️-responsible-use)) |
 | No Fine-Tuning | Do not train generative models on this corpus |
 | No Commercial Use | Public interest and educational purposes only |
 | Verify Facts | Present RAG outputs as leads, not established truth |
@@ -162,8 +193,8 @@ These guidelines align with community standards established by existing Epstein 
 | Project | Description | Relationship |
 |---------|-------------|--------------|
 | [ARD Methodology](https://github.com/vintagedon/analysis-ready-dataset) | Layer model framework | This is the third case study |
-| [theelderemo/FULL_EPSTEIN_INDEX](https://github.com/theelderemo/FULL_EPSTEIN_INDEX) | Comprehensive archive with HuggingFace dataset | Candidate Layer 0 source |
-| [epsteinsblackbook.com](https://epsteinsblackbook.com) | Searchable archive with structured downloads | Candidate Layer 0 source |
+| [theelderemo/FULL_EPSTEIN_INDEX](https://github.com/theelderemo/FULL_EPSTEIN_INDEX) | Comprehensive archive with HuggingFace dataset | Reference; scope exceeds our bounded corpus |
+| [epsteinsblackbook.com](https://epsteinsblackbook.com) | Searchable archive with structured downloads | Black Book source |
 | [DOJ Epstein Library](https://www.justice.gov/epstein) | Official releases | Primary provenance anchor |
 
 ---
@@ -224,4 +255,4 @@ See [tech.md](.kilocode/rules/memory-bank/tech.md) for full environment setup.
 
 ---
 
-Last Updated: 2026-02-01 | Status: M03 Source Evaluation & Import
+Last Updated: 2026-02-01 | Status: M04 Layer 0 Validation
