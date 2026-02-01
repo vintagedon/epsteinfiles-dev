@@ -107,8 +107,9 @@ def add_record_ids(rows: list[dict]) -> list[dict]:
     for row in rows:
         # Create deterministic UUID from row content
         content = "|".join(str(v) for v in row.values())
-        row_hash = hashlib.md5(content.encode()).hexdigest()
-        row["record_id"] = str(uuid.UUID(row_hash))
+        # Use sha256 for consistency and best practice, then truncate for UUID
+        row_hash = hashlib.sha256(content.encode()).hexdigest()
+        row["record_id"] = str(uuid.UUID(row_hash[:32]))
     return rows
 
 
@@ -127,14 +128,13 @@ def validate_data(header: list[str], rows: list[dict]) -> dict:
     }
     
     # Check header columns
-    if header != SOURCE_COLUMNS:
-        missing = set(SOURCE_COLUMNS) - set(header)
-        extra = set(header) - set(SOURCE_COLUMNS)
-        if missing:
-            results["errors"].append(f"Missing columns: {missing}")
-            results["passed"] = False
-        if extra:
-            results["warnings"].append(f"Extra columns: {extra}")
+    missing = set(SOURCE_COLUMNS) - set(header)
+    extra = set(header) - set(SOURCE_COLUMNS)
+    if missing:
+        results["errors"].append(f"Missing columns: {missing}")
+        results["passed"] = False
+    if extra:
+        results["warnings"].append(f"Extra columns: {extra}")
     
     # Compute metrics
     results["metrics"]["total_rows"] = len(rows)

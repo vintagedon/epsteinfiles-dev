@@ -55,7 +55,7 @@ Layer 0: data/layer-0-canonical/black-book.csv
 | File | SHA-256 |
 |------|---------|
 | `black-book-lines.csv` (source) | `4574d246daf6a3a85522923290440c31d954ea651ee39d19cfc292b231abb957` |
-| `black-book.csv` (L0) | `2ab191865205df4998e888023bb5a669f757faaa7a54abd5993943cbe6eac4ec` |
+| `black-book.csv` (L0) | `1f848f4aec3919f884ffae77ca4e6c1e08e9db3a6ae9045a9cecffc8e87fbe80` |
 
 ---
 

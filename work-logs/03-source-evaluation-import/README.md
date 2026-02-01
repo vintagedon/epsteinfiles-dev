@@ -75,7 +75,7 @@ related_documents:
 | Coverage | 95 pages |
 | Phone Coverage | 96.4% |
 | Output | `data/layer-0-canonical/black-book.csv` |
-| SHA-256 | `2ab191865205df4998e888023bb5a669f757faaa7a54abd5993943cbe6eac4ec` |
+| SHA-256 | `1f848f4aec3919f884ffae77ca4e6c1e08e9db3a6ae9045a9cecffc8e87fbe80` |
 
 ---
 

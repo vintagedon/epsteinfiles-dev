@@ -172,7 +172,8 @@ def validate_extraction(header: list[str], rows: list[list[str]]) -> dict:
     # Date range
     dates = [r[1] for r in rows if r[1] and "/" in r[1]]
     if dates:
-        results["metrics"]["date_range"] = f"{min(dates)} to {max(dates)}"
+        date_objects = [datetime.strptime(d, "%m/%d/%Y") for d in dates]
+        results["metrics"]["date_range"] = f"{min(date_objects).strftime('%m/%d/%Y')} to {max(date_objects).strftime('%m/%d/%Y')}"
     
     # Sanity checks
     if results["metrics"]["total_rows"] < 4000:

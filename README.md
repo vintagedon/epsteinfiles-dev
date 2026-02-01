@@ -178,7 +178,7 @@ This project operates under strict ethical guidelines:
 | Principle | Implementation |
 |-----------|----------------|
 | Respect Redactions | Honor all redactions in source documents |
-| Protect Victims | Anonymize victim-identifying information (see [Responsible Use](#️-responsible-use)) |
+| Protect Victims | Anonymize victim-identifying information (see [Responsible Use](#-responsible-use)) |
 | No Fine-Tuning | Do not train generative models on this corpus |
 | No Commercial Use | Public interest and educational purposes only |
 | Verify Facts | Present RAG outputs as leads, not established truth |
