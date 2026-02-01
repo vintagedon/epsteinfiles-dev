@@ -5,7 +5,7 @@ description: "Scripts for transforming data between ARD layers"
 author: "VintageDon"
 orcid: "0009-0008-7695-4093"
 date: "2026-02-01"
-version: "1.0"
+version: "1.1"
 status: "Active"
 tags:
   - type: directory-readme
@@ -23,50 +23,65 @@ Scripts for transforming data between ARD layers: raw → L0 → L1 → L2 → L
 
 ```
 processing/
-├── layer_0_canonical.py    # Raw → cleaned, schema'd records
-├── layer_1_entities.py     # L0 → entity extraction
-├── layer_1_classify.py     # L0 → document classification
-├── layer_2_embed.py        # L1 → embeddings
-├── layer_3_resolve.py      # L2 → entity resolution
-├── layer_3_relationships.py # L2 → relationship extraction
-└── README.md               # This file
+├── extract_flight_logs.py      # PDF → L0 flight logs CSV
+├── normalize_black_book.py     # Raw CSV → L0 black book CSV
+├── README.md                   # This file
+└── (future L1-L3 scripts)
 ```
 
 ---
 
-## 2. Scripts
+## 2. Current Scripts
 
 | Script | Input | Output | Purpose |
 |--------|-------|--------|---------|
-| `layer_0_canonical.py` | `data/raw/` | `data/layer-0-canonical/` | Parse, clean, apply schema |
-| `layer_1_entities.py` | L0 records | `data/layer-1-scalars/entities/` | NER extraction |
-| `layer_1_classify.py` | L0 records | `data/layer-1-scalars/classifications/` | Document typing |
-| `layer_2_embed.py` | L1 records | `data/layer-2-vectors/` | Generate embeddings |
-| `layer_3_resolve.py` | L1 entities | `data/layer-3-graphs/resolved_entities/` | Merge duplicate entities |
-| `layer_3_relationships.py` | Resolved entities | `data/layer-3-graphs/relationships/` | Extract relationships |
+| `extract_flight_logs.py` | `data/raw/epstein-flight-logs-unredacted.pdf` | `data/layer-0-canonical/flight-logs.csv` | Extract tabular flight data with pdfplumber |
+| `normalize_black_book.py` | `data/raw/epsteinsblackbook-com/black-book-lines.csv` | `data/layer-0-canonical/black-book.csv` | Dedupe, add record_id, validate schema |
 
 ---
 
-## 3. Usage Pattern
+## 3. Usage
+
+### Layer 0 Extraction
 
 ```bash
-# Process layer by layer
-python pipelines/processing/layer_0_canonical.py
-python pipelines/validation/validate_layer_0.py
+# Flight logs (requires pdfplumber)
+python pipelines/processing/extract_flight_logs.py
 
-python pipelines/processing/layer_1_entities.py
-python pipelines/processing/layer_1_classify.py
-python pipelines/validation/validate_layer_1.py
+# Black book
+python pipelines/processing/normalize_black_book.py
 
-# Continue through layers...
+# Verify existing outputs without re-processing
+python pipelines/processing/extract_flight_logs.py --verify-only
+python pipelines/processing/normalize_black_book.py --verify-only
 ```
+
+### Script Features
+
+Both L0 scripts include:
+- SHA-256 hash computation for input/output provenance
+- Schema validation with expected column checks
+- Metrics reporting (record counts, coverage percentages)
+- `--verify-only` flag for reproducibility verification
 
 ---
 
-## 4. Related
+## 4. Planned Scripts
+
+| Script | Layer | Purpose |
+|--------|-------|---------|
+| `layer_1_entities.py` | L0 → L1 | NER extraction |
+| `layer_1_classify.py` | L0 → L1 | Document classification |
+| `layer_2_embed.py` | L1 → L2 | Generate embeddings |
+| `layer_3_resolve.py` | L2 → L3 | Entity resolution |
+| `layer_3_relationships.py` | L2 → L3 | Relationship extraction |
+
+---
+
+## 5. Related
 
 | Document | Relationship |
 |----------|--------------|
-| [ingestion/](../ingestion/) | Previous stage |
+| [research/source-analysis/](../../research/source-analysis/) | Provenance documentation |
+| [data/layer-0-canonical/](../../data/layer-0-canonical/) | L0 outputs |
 | [validation/](../validation/) | Quality checks |
-| [data/](../../data/) | Output destination |
