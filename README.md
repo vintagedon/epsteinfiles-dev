@@ -5,7 +5,7 @@ description: "Analysis Ready Dataset applying the ARD layer model to DOJ-release
 author: "VintageDon"
 orcid: "0009-0008-7695-4093"
 date: "2026-02-01"
-version: "0.1"
+version: "0.2"
 status: "Active"
 tags:
   - type: project-root
@@ -59,13 +59,26 @@ This is also a learning project. The ARD is being built alongside the [IBM RAG a
 
 | Area | Status | Description |
 |------|--------|-------------|
-| Repository Setup | 🔄 In Progress | M01: Ideation and scaffolding |
-| Data Acquisition | ⬜ Planned | M03: Download and provenance |
-| Layer 0: Canonical | ⬜ Planned | M04: Schema, deduplication, cleaning |
+| Repository Setup | ✅ Complete | M01: Scaffolding, memory bank, scope definition |
+| GitHub Project | ✅ Complete | M02: Milestones, labels, 18 tasks configured |
+| Source Evaluation | 🔄 In Progress | M03: Evaluating existing datasets |
+| Layer 0: Canonical | ⬜ Planned | M04: Schema validation, quality audit |
 | Layer 1: Scalars | ⬜ Planned | M05: Entity extraction, classification |
 | Layer 2: Vectors | ⬜ Planned | M06: Embeddings, similarity search |
 | Layer 3: Graphs | ⬜ Planned | M07: Entity resolution, relationships |
 | Web Interface | ⬜ Planned | M08: Public search at epsteinfiles.dev |
+
+### Standing on Shoulders
+
+During M02 planning, we identified several quality existing datasets that have already performed OCR and initial structuring:
+
+| Source | Content | License |
+|--------|---------|---------|
+| [theelderemo/FULL_EPSTEIN_INDEX](https://github.com/theelderemo/FULL_EPSTEIN_INDEX) | HuggingFace dataset, all DOJ releases | MIT |
+| [epsteinsblackbook.com](https://epsteinsblackbook.com/files) | Structured CSVs for Flight Logs and Black Book | Public |
+| [Martin-dev-prog/Full-Epstein-Flights](https://github.com/Martin-dev-prog/Full-Epstein-Flights) | Flight routes with airport coordinates | Public |
+
+The ARD methodology assumes you inherit from whatever layer exists. Since Layer 0 canonicalization is largely done, our value-add is in Layers 1-3: entity extraction, embeddings, and relationship graphs.
 
 ---
 
@@ -81,8 +94,8 @@ Each layer builds on the one below, enabling progressively richer query patterns
 
 | Document Set | Size | Structure | Value |
 |--------------|------|-----------|-------|
-| Flight Logs | ~100 pages | Tabular (date, route, passengers) | Temporal patterns, co-occurrence |
-| Black Book | 97 pages | Contact directory (names, phones, addresses) | Entity baseline, relationship seeds |
+| Flight Logs | ~118 pages | Tabular (date, route, passengers) | Temporal patterns, co-occurrence |
+| Black Book | ~92 pages | Contact directory (names, phones, addresses) | Entity baseline, relationship seeds |
 
 These two datasets are highly structured, naturally joinable, and provide concrete deliverables while the methodology matures.
 
@@ -111,6 +124,7 @@ epsteinfiles-dev/
 │   ├── ingestion/              # Acquisition scripts
 │   ├── processing/             # Layer transformations
 │   └── validation/             # Quality checks
+├── 📂 scripts/                 # Automation and setup
 ├── 📂 notebooks/               # Exploratory analysis
 ├── 📂 src/                     # Production code (API, web)
 ├── 📂 docs/
@@ -148,9 +162,9 @@ These guidelines align with community standards established by existing Epstein 
 | Project | Description | Relationship |
 |---------|-------------|--------------|
 | [ARD Methodology](https://github.com/vintagedon/analysis-ready-dataset) | Layer model framework | This is the third case study |
-| [theelderemo/Epstein-files](https://github.com/theelderemo/Epstein-files) | 25K OCR'd documents | Potential Layer 0 input |
-| [epstein-docs.github.io](https://epstein-docs.github.io/) | Searchable archive | Reference implementation |
-| [DOJ Epstein Library](https://www.justice.gov/epstein) | Official releases | Primary source |
+| [theelderemo/FULL_EPSTEIN_INDEX](https://github.com/theelderemo/FULL_EPSTEIN_INDEX) | Comprehensive archive with HuggingFace dataset | Candidate Layer 0 source |
+| [epsteinsblackbook.com](https://epsteinsblackbook.com) | Searchable archive with structured downloads | Candidate Layer 0 source |
+| [DOJ Epstein Library](https://www.justice.gov/epstein) | Official releases | Primary provenance anchor |
 
 ---
 
@@ -169,7 +183,7 @@ We practice open science and open methodology:
 
 ### For Researchers (Using the Data)
 
-*Data products not yet available. Check back after Layer 0 completion.*
+*Data products not yet available. Check back after Layer 1 completion.*
 
 ### For Contributors (Building the ARD)
 
@@ -210,4 +224,4 @@ See [tech.md](.kilocode/rules/memory-bank/tech.md) for full environment setup.
 
 ---
 
-Last Updated: 2026-02-01 | Status: M01 Ideation and Setup
+Last Updated: 2026-02-01 | Status: M03 Source Evaluation & Import

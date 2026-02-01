@@ -13,61 +13,61 @@ CRITICAL: Keep this current. Stale context is worse than no context.
 
 ### Recent Accomplishments
 
-- Project concept developed through discussion (onboarding chat for IBM RAG cert project)
-- Domain registered: epsteinfiles.dev (Cloudflare, free plan)
-- Repository created from project template
-- Directory structure defined
-- Scope bounded to Flight Logs + Black Book as starter corpus
-- Ethical framework established
+- M01 complete: Repository scaffolded, memory bank populated, scope bounded
+- M02 complete: GitHub Project configured with milestones M03-M08, 18 tasks created
+- Discovered existing processed datasets (theelderemo/FULL_EPSTEIN_INDEX, epsteinsblackbook.com)
+- Revised milestone structure to leverage existing Layer 0 work
 
 ### Current Phase
 
-We are currently in **Milestone 01: Ideation and Setup** which involves finalizing repository scaffolding, writing memory bank files, creating the primary README, and making the initial commit.
+We are currently in **Milestone 03: Source Evaluation & Import** which involves evaluating existing datasets, selecting authoritative sources, and importing with provenance documentation.
 
 ### Active Work
 
-Currently working on:
+Next session should begin:
 
-1. **Memory bank population:** Writing brief, product, context, architecture, tech files
-2. **Primary README:** Pending after memory bank complete
-3. **Worklog documentation:** Capture M01 decisions and handoff to M02
+1. **Task 3.1:** Evaluate existing datasets against project criteria
+2. Download and assess theelderemo HuggingFace dataset
+3. Compare with epsteinsblackbook.com structured CSVs
+4. Document evaluation findings in research/
 
 ## Next Steps
 
-### Immediate (This Session)
+### Immediate (Next Session)
 
-1. Complete memory bank files
-2. Write primary README
-3. Create interior READMEs for new directories
-4. Write M01 worklog
-5. Initial commit
+1. Download theelderemo/FULL_EPSTEIN_INDEX from HuggingFace
+2. Download epsteinsblackbook.com CSVs (flight-manifest-rows.txt, black-book-lines.txt)
+3. Assess coverage, quality, and schema usability
+4. Create evaluation matrix in research/
 
-### Near-Term (Next Few Sessions)
+### Near-Term (M03-M04)
 
-- M02: GitHub Project frameout (milestones, tasks, sub-tasks)
-- M03: Data acquisition—download Flight Logs and Black Book from DOJ, document provenance
-- Begin Layer 0 canonicalization
+- Task 3.2: Select and document sources with provenance chain
+- Task 3.3: Import to repo structure (data/layer-0-canonical/)
+- M04: Schema definition and quality audit
 
 ### Future / Backlog
 
-- Layer 1-3 implementation
-- Web interface at epsteinfiles.dev
-- Expansion beyond starter corpus (if warranted)
+- M05: Layer 1 entity extraction and normalization
+- M06: Layer 2 vector embeddings
+- M07: Layer 3 graph relationships
+- M08: Web interface at epsteinfiles.dev
 - Cross-reference with ARD methodology repo as case study
 
 ## Active Decisions
 
 ### Pending Decisions
 
-- **Vector database choice:** pgvector (aligned with cluster) vs. dedicated vector DB (Qdrant, etc.). Leaning pgvector for simplicity.
-- **Graph storage:** Neo4j vs. PostgreSQL with recursive CTEs vs. both. Defer until Layer 3.
-- **Hosting for processed data:** Git LFS vs. external hosting vs. cluster storage. Decide during M03 based on actual file sizes.
+- **Primary data source:** theelderemo HuggingFace vs. epsteinsblackbook.com vs. combination. Decide in Task 3.1.
+- **Vector database choice:** pgvector (aligned with cluster) vs. dedicated vector DB. Leaning pgvector for simplicity.
+- **Graph storage:** Neo4j vs. PostgreSQL with recursive CTEs. Defer until M07.
 
 ### Recent Decisions
 
-- **2026-02-01 - Bounded starter corpus:** Flight Logs + Black Book selected for initial scope. Rationale: structured, joinable, ~200 pages, high public interest.
-- **2026-02-01 - Decoupled from cert:** Project phases are independent of certification progress. Can move ahead on ARD work regardless of coursework pace.
-- **2026-02-01 - Ethical framework:** Adopted community guidelines—respect redactions, scrub victim info, no fine-tuning, no commercial use.
+- **2026-02-01 - Leverage existing Layer 0:** Multiple quality datasets exist with OCR'd content. ARD value is in Layers 1-3, not re-doing canonicalization work. Revised milestones accordingly.
+- **2026-02-01 - Tasks as work units:** Project scale doesn't warrant sub-task hierarchy. Tasks are session-sized discrete units.
+- **2026-02-01 - No due dates:** Dynamic schedule; milestones ordered but not time-boxed.
+- **2026-02-01 - Bounded starter corpus:** Flight Logs + Black Book maintained as scope. Other DOJ releases deferred.
 
 ## Blockers and Dependencies
 
@@ -77,17 +77,20 @@ Currently working on:
 
 ### External Dependencies
 
-- **DOJ Epstein Library:** Source data availability at justice.gov/epstein
-- **Existing datasets:** theelderemo repos on GitHub, HuggingFace datasets as reference/comparison
+- **theelderemo/FULL_EPSTEIN_INDEX:** HuggingFace dataset availability
+- **epsteinsblackbook.com:** Structured CSV downloads
+- **DOJ Epstein Library:** Reference for provenance chain (justice.gov/epstein)
 
 ## Notes and Observations
 
-### Recent Insights
+### Existing Datasets Identified (M02)
 
-- Multiple consolidation projects exist but none apply ARD methodology
-- January 30, 2026 DOJ release (3M+ pages) is largely unprocessed—opportunity for differentiation
-- Existing projects found redaction failures in DOJ PDFs (visual overlay without text removal)—ethical consideration for handling discovered content
+| Source | Content | Notes |
+|--------|---------|-------|
+| theelderemo/FULL_EPSTEIN_INDEX | HuggingFace dataset, all DOJ releases | MIT licensed, same ethical guidelines |
+| epsteinsblackbook.com/files | Structured CSVs for both document types | Clean, queryable format |
+| Martin-dev-prog/Full-Epstein-Flights | Flight routes with airports.csv | Geographic data |
 
 ### Context for Next Session
 
-M01 should complete this session. Next session begins M02: GitHub Project frameout. Reference `work-logs/milestones-one-and-two-procedures.md` for process.
+Begin M03 Task 3.1. GitHub Project is configured—use issue tracking for progress. Reference `work-logs/02-github-project-frameout/README.md` for M02 decisions.
