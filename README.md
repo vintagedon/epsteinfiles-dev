@@ -5,7 +5,7 @@ description: "Analysis Ready Dataset applying the ARD layer model to DOJ-release
 author: "VintageDon"
 orcid: "0009-0008-7695-4093"
 date: "2026-02-01"
-version: "0.3"
+version: "0.4"
 status: "Active"
 tags:
   - type: project-root
@@ -79,8 +79,8 @@ This is also a learning project. The ARD is being built alongside the [IBM RAG a
 | Repository Setup | ✅ Complete | M01: Scaffolding, memory bank, scope definition |
 | GitHub Project | ✅ Complete | M02: Milestones, labels, 18 tasks configured |
 | Source Evaluation | ✅ Complete | M03: Source selection, L0 import with provenance |
-| Layer 0: Canonical | 🔄 In Progress | M04: Schema validation, quality audit |
-| Layer 1: Scalars | ⬜ Planned | M05: Entity extraction, classification |
+| Layer 0: Canonical | ✅ Complete | M04: Schema validation, quality audit, L1 transformation plan |
+| Layer 1: Scalars | 🔄 Next | M05: Entity extraction, classification |
 | Layer 2: Vectors | ⬜ Planned | M06: Embeddings, similarity search |
 | Layer 3: Graphs | ⬜ Planned | M07: Entity resolution, relationships |
 | Web Interface | ⬜ Planned | M08: Public search at epsteinfiles.dev |
@@ -255,4 +255,4 @@ See [tech.md](.kilocode/rules/memory-bank/tech.md) for full environment setup.
 
 ---
 
-Last Updated: 2026-02-01 | Status: M04 Layer 0 Validation
+Last Updated: 2026-02-01 | Status: M04 Complete — M05 Ready

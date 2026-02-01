@@ -36,6 +36,9 @@ INPUT_PDF = REPO_ROOT / "data" / "raw" / "epstein-flight-logs-unredacted.pdf"
 OUTPUT_CSV = REPO_ROOT / "data" / "layer-0-canonical" / "flight-logs.csv"
 
 # Expected schema (22 columns)
+# AI NOTE: This list defines the contract with downstream consumers. Changes here
+# require updates to: flight-logs.schema.json, validate_l0_schemas.py, and any
+# L1 transformation pipelines that depend on column positions.
 EXPECTED_COLUMNS = [
     "ID",
     "Date",
@@ -115,15 +118,27 @@ def extract_tables_from_pdf(pdf_path: Path) -> tuple[list[str], list[list[str]]]
                     # First row of first page is header
                     if header is None and i == 0 and j == 0:
                         header = cleaned
-                        # Fix doubled ID column name from PDF rendering
+                        # AI NOTE: The PDF renderer sometimes doubles the "ID" column
+                        # header as "IIDD". This is a known artifact of pdfplumber's
+                        # text extraction on this specific document. Do not remove
+                        # this fix without re-testing extraction.
                         if header[0] == "IIDD":
                             header[0] = "ID"
                     else:
-                        # Skip repeated headers
+                        # AI NOTE: The PDF contains repeated header rows on each page.
+                        # We detect and skip these by checking if the first column
+                        # contains the header text. This assumes "ID"/"IIDD" never
+                        # appears as a valid data value in column 0.
                         if cleaned[0] not in ("ID", "IIDD"):
                             all_rows.append(cleaned)
     
     print(f"Extracted {len(all_rows)} data rows")
+    
+    # Guard against empty PDF (no header found)
+    if header is None:
+        print("ERROR: No header row found in PDF")
+        sys.exit(1)
+    
     return header, all_rows
 
 
@@ -255,7 +270,7 @@ def main():
     )
     args = parser.parse_args()
     
-    print(f"Flight Logs Extraction Script")
+    print("Flight Logs Extraction Script")
     print(f"Run time: {datetime.now().isoformat()}")
     print()
     

@@ -16,59 +16,82 @@ CRITICAL: Keep this current. Stale context is worse than no context.
 - M01 complete: Repository scaffolded, memory bank populated, scope bounded
 - M02 complete: GitHub Project configured with milestones M03-M08, 18 tasks created
 - M03 complete: Source evaluation, L0 import with provenance documentation
-  - Flight logs: 5,001 records from Internet Archive PDF
-  - Black book: 2,324 records from epsteinsblackbook.com
-  - Reproducible extraction scripts with `--verify-only` flags
-  - Full SHA-256 provenance chains documented
+- **M04 complete: Layer 0 Validation**
+  - Task 4.1: JSON Schema definitions for both datasets
+  - Task 4.2: Quality audit with comprehensive findings
+  - Task 4.3: Schema patches applied, L1 transformation plan documented
+  - **Validation: 100% pass rate on both datasets**
 
 ### Current Phase
 
-We are currently in **Milestone 04: Layer 0 Validation** which involves schema definition, quality audit, and preparation for PostgreSQL import.
+**Milestone 04 COMPLETE.** Ready for M05: Layer 1 Scalars.
 
 ### Active Work
 
-Next session should begin:
+Next session should begin M05.
 
-1. **Task 4.1:** Define formal JSON schemas for both datasets
-2. **Task 4.2:** Run comprehensive quality audit
-3. **Task 4.3:** Document data quality issues for L1 consideration
+## M04 Deliverables Summary
+
+| Artifact | Path |
+|----------|------|
+| Flight logs schema | `data/layer-0-canonical/schema/flight-logs.schema.json` |
+| Black book schema | `data/layer-0-canonical/schema/black-book.schema.json` |
+| Schema validation script | `pipelines/validation/validate_l0_schemas.py` |
+| Quality audit script | `pipelines/validation/quality_audit_l0.py` |
+| Quality audit report | `research/quality-analysis/l0-quality-audit.md` |
+| Audit metrics JSON | `research/quality-analysis/l0-audit-metrics.json` |
+| **L1 transformation plan** | `docs/l1-transformation-plan.md` |
 
 ## Next Steps
 
-### Immediate (Next Session)
+### Immediate (M05: Layer 1 Scalars)
 
-1. Create JSON schema definitions in `data/layer-0-canonical/schema/`
-2. Build validation scripts against schemas
-3. Audit data quality (nulls, format consistency, edge cases)
-4. Document findings for L1 processing decisions
+Per `docs/l1-transformation-plan.md`:
 
-### Near-Term (M04-M05)
+1. **Task 5.1: Entity extraction pipeline**
+   - Install `probablepeople` for name parsing
+   - Create `l1.identity_mentions` table
+   - Parse all names from both datasets
+   
+2. **Task 5.2: Date and location normalization**
+   - Flight dates to ISO 8601
+   - Airport code lookup table
+   - Country standardization to ISO 3166-1
+
+3. **Task 5.3: Contact normalization**
+   - Phone normalization with `phonenumbers` library
+   - Multi-person entry decomposition
+   - Entity type classification
+
+### Near-Term (M05-M06)
 
 - PostgreSQL table creation from schemas
 - Import L0 CSVs to database
-- M05: Layer 1 entity extraction and normalization
+- Entity resolution candidate generation (Soundex + pgvector)
 
 ### Future / Backlog
 
-- M06: Layer 2 vector embeddings
-- M07: Layer 3 graph relationships
-- M08: Web interface at epsteinfiles.dev
-- Cross-reference with ARD methodology repo as case study
+- M06: Layer 2 vector embeddings (pgvector + sentence-transformers)
+- M07: Layer 3 graph relationships (recursive CTEs per GDR)
+- M08: Web interface at epsteinfiles.dev with K-anonymity views
 
 ## Active Decisions
 
+### Approved Decisions (from M04)
+
+| Decision | Details |
+|----------|---------|
+| Phone normalization | E.164 via `phonenumbers`, UK default for zero-prefix |
+| Multi-person decomposition | Split on ` & `, link via `household_id` |
+| Identity confidence | 5-tier scoring (1.0/0.7/0.3/0.1/0.0) |
+| Victim protection | `suppress_from_public` flag, K-anonymity views |
+| Country codes | ISO 3166-1 alpha-2, preserve raw values |
+| Name parsing | `probablepeople` library (CRF-based) |
+
 ### Pending Decisions
 
-- **Vector database choice:** pgvector (aligned with cluster) vs. dedicated vector DB. Leaning pgvector for simplicity.
-- **Graph storage:** Neo4j vs. PostgreSQL with recursive CTEs. Defer until M07.
-- **Entity resolution approach:** Rule-based vs. ML-based for L1 name matching. Evaluate in M05.
-
-### Recent Decisions
-
-- **2026-02-01 - Internet Archive for flight logs:** Pre-structured 22-column format with 82% passenger identification beat alternatives.
-- **2026-02-01 - epsteinsblackbook.com for black book:** Row-level Wayback provenance links, already parsed fields.
-- **2026-02-01 - Minimal L0 transformation:** Schema preserved for PostgreSQL materialization; transformations happen in SQL.
-- **2026-02-01 - Deterministic UUIDs:** record_id derived from row content hash for reproducibility.
+- **Entity resolution thresholds:** What similarity score triggers auto-match vs manual review?
+- **Vector embedding model:** `all-MiniLM-L6-v2` vs larger model? Trade-off: speed vs accuracy.
 
 ## Blockers and Dependencies
 
@@ -80,27 +103,36 @@ Next session should begin:
 
 - PostgreSQL instance for L1+ processing (cluster resource)
 
-## Layer 0 Inventory
+### Python Dependencies (M05)
 
-| Dataset | Records | File | SHA-256 |
-|---------|---------|------|---------|
-| Flight Logs | 5,001 | `flight-logs.csv` | `af9ed4eb...` |
-| Black Book | 2,324 | `black-book.csv` | `1f848f4a...` |
+```
+probablepeople>=0.5.5
+phonenumbers>=8.13.0
+python-Levenshtein>=0.21.0
+```
 
-## Notes and Observations
+## Layer 0 Final Status
 
-### Data Quality Notes (for M04)
+| Dataset | Records | Schema Valid | Quality Issues Documented |
+|---------|---------|--------------|---------------------------|
+| Flight Logs | 5,001 | ✅ 100% | Yes — see audit report |
+| Black Book | 2,324 | ✅ 100% | Yes — see audit report |
+
+## Key Quality Findings (Reference)
 
 **Flight Logs:**
-- 17.7% passengers marked "Unknown" (initials only)
-- Coverage ends September 2002
-- No crew manifest data
+- 17.7% unidentified passengers (initials, "Female (1)", "?")
+- 270 FOIA records with different conventions
+- 6 unique aircraft, N908JE dominant (74%)
 
 **Black Book:**
-- 34% missing country field
-- 17% email coverage (expected for era)
-- Some entries are organizations, not individuals
+- 293 multi-person entries (12.6%)
+- 226 likely organizations (9.7%)
+- 6+ phone formats, 958 multi-number fields
+- 28 country variations
 
-### Context for Next Session
+All findings documented in `research/quality-analysis/l0-quality-audit.md` with remediation proposals in `docs/l1-transformation-plan.md`.
 
-Begin M04 with schema definition. Reference `research/source-analysis/` for column definitions. L0 data is validated and ready for formal schema work.
+## Notes for Next Session
+
+M05 should begin with PostgreSQL setup. Check cluster availability. The L1 transformation plan has implementation priority rankings — start with high-priority items (identity confidence, date normalization, name parsing).
