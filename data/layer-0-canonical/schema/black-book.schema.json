@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://epsteinfiles.dev/schemas/layer-0/black-book.schema.json",
+  "title": "Black Book L0 Schema",
+  "description": "Layer 0 canonical schema for Epstein black book contact entries. Source: epsteinsblackbook.com extraction from Wayback Machine archived scans. Coverage: 95 pages of contact entries.",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Deterministic UUID generated from row content hash"
+    },
+    "Page": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 95,
+      "description": "Source page number in original black book"
+    },
+    "Page-Link": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://web\\.archive\\.org/",
+      "description": "Wayback Machine URL to source image (row-level provenance)"
+    },
+    "Name": {
+      "type": "string",
+      "description": "Display name as written in source (may include multiple people)"
+    },
+    "Company/Add. Text": {
+      "type": ["string", "null"],
+      "description": "Company name or additional context text"
+    },
+    "Surname": {
+      "type": ["string", "null"],
+      "description": "Parsed surname (may contain multiple names for household entries)"
+    },
+    "First Name": {
+      "type": ["string", "null"],
+      "description": "Parsed first name (may contain multiple names for household entries)"
+    },
+    "Address-Type": {
+      "type": ["string", "null"],
+      "description": "Address category if specified"
+    },
+    "Address": {
+      "type": ["string", "null"],
+      "description": "Street address"
+    },
+    "Zip": {
+      "type": ["string", "null"],
+      "description": "Postal/ZIP code (format varies by country)"
+    },
+    "City": {
+      "type": ["string", "null"],
+      "description": "City name"
+    },
+    "Country": {
+      "type": ["string", "null"],
+      "description": "Country (inconsistent format: US, UK, France, etc.)"
+    },
+    "Phone (no specifics)": {
+      "type": ["string", "null"],
+      "description": "General phone number (format highly variable)"
+    },
+    "Phone (w) – work": {
+      "type": ["string", "null"],
+      "description": "Work phone number"
+    },
+    "Phone (h) – home": {
+      "type": ["string", "null"],
+      "description": "Home phone number"
+    },
+    "Phone (p) – portable/mobile": {
+      "type": ["string", "null"],
+      "description": "Mobile/portable phone number (may contain multiple numbers separated by |)"
+    },
+    "Email": {
+      "type": ["string", "null"],
+      "description": "Email address (may be truncated in source)"
+    }
+  },
+  "required": [
+    "record_id",
+    "Page",
+    "Page-Link",
+    "Name"
+  ],
+  "additionalProperties": false,
+  "_meta": {
+    "layer": "L0",
+    "record_count": 2324,
+    "source_hash": "4574d246daf6a3a85522923290440c31d954ea651ee39d19cfc292b231abb957",
+    "output_hash": "1f848f4aec3919f884ffae77ca4e6c1e08e9db3a6ae9045a9cecffc8e87fbe80",
+    "created": "2026-02-01",
+    "data_quality_notes": {
+      "country_missing_pct": 34,
+      "email_coverage_pct": 17,
+      "phone_coverage_pct": 96,
+      "household_entries": "Some Name/Surname fields contain multiple people (e.g., 'Marie Claire & John')"
+    },
+    "l1_evolution": "Will normalize to identity_mentions via probablepeople parsing per GDR architecture"
+  }
+}

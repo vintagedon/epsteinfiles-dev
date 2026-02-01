@@ -1,21 +1,22 @@
 <!--
 ---
 title: "Layer 0: Canonical"
-description: "Cleaned, deduplicated records with uniform schema"
+description: "Cleaned, deduplicated records with uniform schema and provenance"
 author: "VintageDon"
 orcid: "0009-0008-7695-4093"
 date: "2026-02-01"
-version: "1.0"
+version: "1.1"
 status: "Active"
 tags:
   - type: directory-readme
   - domain: data
+  - layer: L0
 ---
 -->
 
 # Layer 0: Canonical
 
-Cleaned, deduplicated records with uniform schema and provenance links.
+Cleaned, deduplicated records with validated schemas and provenance links.
 
 ---
 
@@ -23,71 +24,77 @@ Cleaned, deduplicated records with uniform schema and provenance links.
 
 ```
 layer-0-canonical/
-├── flight_logs.parquet     # Normalized flight log entries
-├── black_book.parquet      # Normalized contact entries
-├── schema/                 # Schema definitions
-│   ├── flight_log.json
-│   └── contact.json
-├── validation/             # Quality reports
-│   └── l0_validation_report.md
+├── flight-logs.csv         # 5,001 flight log entries
+├── black-book.csv          # 2,324 contact entries
+├── schema/                 # JSON Schema definitions
+│   ├── flight-logs.schema.json
+│   ├── black-book.schema.json
+│   └── README.md
 └── README.md               # This file
 ```
 
 ---
 
-## 2. What This Layer Provides
+## 2. Datasets
+
+| Dataset | Records | Columns | Coverage |
+|---------|---------|---------|----------|
+| [flight-logs.csv](flight-logs.csv) | 5,001 | 22 | Jan 1996 – Sep 2002 |
+| [black-book.csv](black-book.csv) | 2,324 | 17 | 95 pages |
+
+---
+
+## 3. What This Layer Provides
 
 | Capability | Description |
 |------------|-------------|
-| Uniform Schema | All records follow defined structure |
-| Deduplication | Exact duplicates removed |
-| Provenance | Every record links to source file and page |
-| Clean Text | OCR corrections, encoding normalization |
+| Validated Schema | JSON Schema draft-07 definitions |
+| Deduplication | Exact duplicates removed (3 from black book) |
+| Provenance | SHA-256 chains to source files |
+| Deterministic IDs | Reproducible UUIDs from row content |
 
 ---
 
-## 3. Query Patterns Enabled
+## 4. Schema Validation
 
-- Basic filtering: "All flight logs from 2005"
-- Joins: "Flight entries matching contact book names"
-- Provenance lookup: "Which source file contains this record?"
+```bash
+# Validate both datasets
+python pipelines/validation/validate_l0_schemas.py
 
----
+# Validate specific dataset
+python pipelines/validation/validate_l0_schemas.py --dataset flight
+python pipelines/validation/validate_l0_schemas.py --dataset book
+```
 
-## 4. Schema Overview
-
-### Flight Log Entry
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `record_id` | uuid | Unique identifier |
-| `source_file` | string | Original PDF filename |
-| `page_number` | int | Page in source |
-| `date` | date | Flight date |
-| `aircraft` | string | Aircraft identifier |
-| `route_from` | string | Departure location |
-| `route_to` | string | Arrival location |
-| `passengers` | list[string] | Raw passenger names |
-| `raw_text` | string | Original OCR text |
-
-### Contact Entry
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `record_id` | uuid | Unique identifier |
-| `source_file` | string | Original filename |
-| `page_number` | int | Page in source |
-| `name` | string | Primary name |
-| `phone_numbers` | list[string] | Phone numbers |
-| `addresses` | list[string] | Addresses |
-| `raw_text` | string | Original text |
+See [schema/README.md](schema/README.md) for schema documentation.
 
 ---
 
-## 5. Related
+## 5. Provenance
+
+| Dataset | Source | Documentation |
+|---------|--------|---------------|
+| Flight Logs | Internet Archive (Bradley Edwards exhibits) | [flight-logs-provenance.md](../../research/source-analysis/flight-logs-provenance.md) |
+| Black Book | epsteinsblackbook.com (Wayback Machine) | [black-book-provenance.md](../../research/source-analysis/black-book-provenance.md) |
+
+---
+
+## 6. L1 Evolution
+
+L0 preserves source structure. L1 processing will decompose per [GDR architecture](../../research/gdr-artifacts/epstein-schema-architecture.md):
+
+| L0 Table | L1 Tables |
+|----------|-----------|
+| flight-logs | `flight_events` + `flight_passengers` + `identity_mentions` |
+| black-book | `identity_mentions` + `contact_info` |
+
+---
+
+## 7. Related
 
 | Document | Relationship |
 |----------|--------------|
-| [raw/](../raw/) | Input to this layer |
-| [layer-1-scalars/](../layer-1-scalars/) | Next processing stage |
-| [pipelines/processing/](../../pipelines/processing/) | Transformation scripts |
+| [raw/](../raw/) | Input source files |
+| [schema/](schema/) | JSON Schema definitions |
+| [pipelines/processing/](../../pipelines/processing/) | Extraction scripts |
+| [pipelines/validation/](../../pipelines/validation/) | Validation scripts |

@@ -1,0 +1,151 @@
+{
+  "audit_date": "2026-02-01T22:56:33.079726",
+  "flight_logs": {
+    "total_records": 5001,
+    "completeness": {
+      "ID": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Date": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Year": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Aircraft Model": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Aircraft Tail #": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Aircraft Type": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "# of Seats": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "DEP: Code": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "ARR: Code": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "DEP": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "ARR": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Flight_No.": {"populated": 4883, "missing": 118, "pct_populated": 97.6},
+      "Pass #": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Unique ID": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "First Name": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Last Name": {"populated": 4760, "missing": 241, "pct_populated": 95.2},
+      "Last, First": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "First Last": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Comment": {"populated": 471, "missing": 4530, "pct_populated": 9.4},
+      "Initials": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Known": {"populated": 5001, "missing": 0, "pct_populated": 100.0},
+      "Data Source": {"populated": 5001, "missing": 0, "pct_populated": 100.0}
+    },
+    "distributions": {
+      "Year": {
+        "unique_count": 21,
+        "top_values": [["2002", 745], ["2001", 672], ["2004", 649], ["2003", 515], ["2005", 418]],
+        "empty_count": 0
+      },
+      "Aircraft Type": {
+        "unique_count": 3,
+        "top_values": [["Jet", 4909], ["Fixed Wing", 79], ["Helicopter", 13]],
+        "empty_count": 0
+      },
+      "Known": {
+        "unique_count": 2,
+        "top_values": [["Yes", 4118], ["No", 883]],
+        "empty_count": 0
+      },
+      "Data Source": {
+        "unique_count": 2,
+        "top_values": [["Flight Log", 4731], ["FOIA", 270]],
+        "empty_count": 0
+      },
+      "Aircraft Tail #": {
+        "unique_count": 6,
+        "top_values": [["N908JE", 3704], ["N909JE", 1211], ["N908GM", 72], ["N491GM", 12], ["121TH", 1], ["N505LS", 1]]
+      }
+    },
+    "anomalies": {
+      "name_anomalies": {"Female": 97, "Male": 31, "?": 438},
+      "initials_only_count": 459,
+      "known_no_count": 883,
+      "known_yes_count": 4118,
+      "duplicate_unique_ids": {
+        "count": 4,
+        "total_duplicate_rows": 8,
+        "samples": [
+          ["36244-G-1159B-N908JE-TEB-PBI-1215-Pass 6", 2],
+          ["37137-B-727-31-N908JE-TIST-HPN-11-Pass 1", 6],
+          ["37307-B-727-31-N908JE-JFK-MRY-66-Pass 7", 2],
+          ["37934-B-727-31H-N908JE-ZUUU-ZBAA-231-Pass 10", 2]
+        ]
+      }
+    },
+    "patterns": {
+      "date_format_issues": {"count": 0, "samples": []},
+      "tail_number_issues": {"count": 1, "samples": [{"row": 1536, "value": "121TH"}], "unique_tails": 6},
+      "pass_number_issues": {"count": 270, "values": {"No Records": 270}},
+      "year_range": {
+        "min": 1995,
+        "max": 2015,
+        "distribution": {
+          "1995": 27, "1996": 374, "1997": 343, "1998": 396, "1999": 352,
+          "2000": 319, "2001": 672, "2002": 745, "2003": 515, "2004": 649,
+          "2005": 418, "2006": 66, "2007": 60, "2008": 7, "2009": 3,
+          "2010": 3, "2011": 5, "2012": 6, "2013": 8, "2014": 12, "2015": 21
+        }
+      }
+    }
+  },
+  "black_book": {
+    "total_records": 2324,
+    "completeness": {
+      "record_id": {"populated": 2324, "missing": 0, "pct_populated": 100.0},
+      "Page": {"populated": 2324, "missing": 0, "pct_populated": 100.0},
+      "Page-Link": {"populated": 2324, "missing": 0, "pct_populated": 100.0},
+      "Name": {"populated": 2324, "missing": 0, "pct_populated": 100.0},
+      "Company/Add. Text": {"populated": 862, "missing": 1462, "pct_populated": 37.1},
+      "Surname": {"populated": 1821, "missing": 503, "pct_populated": 78.4},
+      "First Name": {"populated": 1999, "missing": 325, "pct_populated": 86.0},
+      "Address-Type": {"populated": 243, "missing": 2081, "pct_populated": 10.5},
+      "Address": {"populated": 1377, "missing": 947, "pct_populated": 59.3},
+      "Zip": {"populated": 1233, "missing": 1091, "pct_populated": 53.1},
+      "City": {"populated": 1311, "missing": 1013, "pct_populated": 56.4},
+      "Country": {"populated": 1525, "missing": 799, "pct_populated": 65.6},
+      "Phone (no specifics)": {"populated": 1666, "missing": 658, "pct_populated": 71.7},
+      "Phone (w) – work": {"populated": 683, "missing": 1641, "pct_populated": 29.4},
+      "Phone (h) – home": {"populated": 910, "missing": 1414, "pct_populated": 39.2},
+      "Phone (p) – portable/mobile": {"populated": 592, "missing": 1732, "pct_populated": 25.5},
+      "Email": {"populated": 406, "missing": 1918, "pct_populated": 17.5}
+    },
+    "anomalies": {
+      "multi_person_entries": {
+        "count": 293,
+        "samples": [
+          {"row": 6, "name": "Agnew, Marie Claire & John"},
+          {"row": 8, "name": "Albermarle, Rufus & Sally"},
+          {"row": 13, "name": "Allan Nick & Sarah"},
+          {"row": 16, "name": "Alun-Jones, Jeremy & Deborah"},
+          {"row": 21, "name": "Amon, Roberta & Maurice"}
+        ]
+      },
+      "likely_organizations": 226,
+      "duplicate_record_ids": {"count": 0, "samples": []}
+    },
+    "patterns": {
+      "wayback_url_issues": {"count": 0, "samples": []},
+      "phone_formats": {
+        "digits_only": 50,
+        "other": 1284,
+        "intl_zero_prefix": 2151,
+        "us_dashes": 285,
+        "international_plus": 37,
+        "us_parens": 44
+      },
+      "multi_phone_entries": 958,
+      "email_analysis": {
+        "total_with_email": 406,
+        "truncated_no_at": 7,
+        "top_domains": [["aol.com", 70], ["yahoo.com", 11], ["hotmail.com", 9], ["earthlink.net", 7]]
+      },
+      "country_variations": {
+        "unique_count": 28,
+        "all_values": {
+          "France": 135, "UK": 381, "US": 910, "Switzerland": 9, "Spain": 16,
+          "England": 1, "Australia": 2, "Italy": 16, "New York": 1, "South Africa": 8,
+          "Kenya": 3, "Brazil": 6, "Saudi Arabia": 1, "Russia": 1, "Germany": 2,
+          "Peru": 2, "Bahamas": 1, "Nigeria": 1, "Canada": 4, "Sweden": 5,
+          "Columbia": 1, "Argentina": 1, "Portugal": 1, "Hong Kong": 7, "London": 1,
+          "Belgium": 1, "Israel": 6, "Singapore": 2
+        }
+      }
+    }
+  }
+}

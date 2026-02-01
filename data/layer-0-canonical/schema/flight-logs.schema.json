@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://epsteinfiles.dev/schemas/layer-0/flight-logs.schema.json",
+  "title": "Flight Logs L0 Schema",
+  "description": "Layer 0 canonical schema for Epstein flight log records. Source: Internet Archive court exhibits (Bradley Edwards) + FOIA releases. Coverage: November 1995 - 2015 (bulk 1996-2005).",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "type": "integer",
+      "description": "Unique record identifier from source dataset"
+    },
+    "Date": {
+      "type": "string",
+      "pattern": "^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$",
+      "description": "Flight date in M/D/YYYY format (US locale)"
+    },
+    "Year": {
+      "type": "integer",
+      "minimum": 1995,
+      "maximum": 2020,
+      "description": "Year extracted from date (bulk records 1996-2005, long tail through 2015)"
+    },
+    "Aircraft Model": {
+      "type": "string",
+      "description": "Manufacturer model designation (e.g., G-1159B, B-727-31)"
+    },
+    "Aircraft Tail #": {
+      "type": "string",
+      "description": "Aircraft registration (typically FAA N-number, e.g., N908JE). Note: 1 non-N-number in dataset (121TH)."
+    },
+    "Aircraft Type": {
+      "type": "string",
+      "description": "Aircraft category (e.g., Jet, Helicopter)"
+    },
+    "# of Seats": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Passenger capacity"
+    },
+    "DEP: Code": {
+      "type": "string",
+      "description": "Departure airport code (typically ICAO 3-4 char)"
+    },
+    "ARR: Code": {
+      "type": "string",
+      "description": "Arrival airport code (typically ICAO 3-4 char)"
+    },
+    "DEP": {
+      "type": "string",
+      "description": "Full departure location (City, State, Country)"
+    },
+    "ARR": {
+      "type": "string",
+      "description": "Full arrival location (City, State, Country)"
+    },
+    "Flight_No.": {
+      "type": ["string", "integer"],
+      "description": "Flight number identifier"
+    },
+    "Pass #": {
+      "type": "string",
+      "description": "Passenger position on manifest (e.g., 'Pass 1') or 'No Records' for FOIA entries without passenger data"
+    },
+    "Unique ID": {
+      "type": "string",
+      "description": "Composite key from source (ID-Model-Tail-Route-Flight-Pass)"
+    },
+    "First Name": {
+      "type": "string",
+      "description": "Passenger first name (may be partial, initials, or descriptive)"
+    },
+    "Last Name": {
+      "type": "string",
+      "description": "Passenger last name (may be empty for unknown passengers)"
+    },
+    "Last, First": {
+      "type": "string",
+      "description": "Formatted name: Surname, Given"
+    },
+    "First Last": {
+      "type": "string",
+      "description": "Formatted name: Given Surname"
+    },
+    "Comment": {
+      "type": ["string", "null"],
+      "description": "Notes from source document"
+    },
+    "Initials": {
+      "type": "string",
+      "description": "Passenger initials as recorded in original logs"
+    },
+    "Known": {
+      "type": "string",
+      "enum": ["Yes", "No"],
+      "description": "Whether passenger identity was confirmed by source compiler"
+    },
+    "Data Source": {
+      "type": "string",
+      "enum": ["Flight Log", "FOIA"],
+      "description": "Source document type: 'Flight Log' (primary) or 'FOIA' (supplemental releases)"
+    }
+  },
+  "required": [
+    "ID",
+    "Date",
+    "Year",
+    "Aircraft Model",
+    "Aircraft Tail #",
+    "Aircraft Type",
+    "# of Seats",
+    "DEP: Code",
+    "ARR: Code",
+    "DEP",
+    "ARR",
+    "Flight_No.",
+    "Pass #",
+    "Unique ID",
+    "First Name",
+    "Last Name",
+    "Last, First",
+    "First Last",
+    "Initials",
+    "Known",
+    "Data Source"
+  ],
+  "additionalProperties": false,
+  "_meta": {
+    "layer": "L0",
+    "record_count": 5001,
+    "source_hash": "d30f3807f9e2b0a2dc112221607f2190e6fe6e8535e3ce198e4e6d723c7d7b15",
+    "output_hash": "af9ed4eb4a6af7f3444e210338d0d98aca0d8e40a16928bf133876115db0095d",
+    "created": "2026-02-01",
+    "patched": "2026-02-01",
+    "patch_notes": "Relaxed Year max (2003→2020), Data Source (const→enum), removed strict patterns for Pass # and Tail # per quality audit findings",
+    "l1_evolution": "Will decompose into flight_events + flight_passengers per GDR architecture"
+  }
+}

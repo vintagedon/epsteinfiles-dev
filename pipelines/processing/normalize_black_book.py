@@ -36,6 +36,9 @@ INPUT_CSV = REPO_ROOT / "data" / "raw" / "epsteinsblackbook-com" / "black-book-l
 OUTPUT_CSV = REPO_ROOT / "data" / "layer-0-canonical" / "black-book.csv"
 
 # Expected schema (16 columns from source + 1 added)
+# AI NOTE: This list must match the epsteinsblackbook.com CSV export exactly.
+# Changes require updates to: black-book.schema.json and validate_l0_schemas.py.
+# The order matters for validation but not for DictReader processing.
 SOURCE_COLUMNS = [
     "Page",
     "Page-Link",
@@ -103,7 +106,14 @@ def load_and_dedupe(csv_path: Path) -> tuple[list[str], list[dict]]:
 
 
 def add_record_ids(rows: list[dict]) -> list[dict]:
-    """Add deterministic UUIDs based on row content."""
+    """
+    Add deterministic UUIDs based on row content.
+    
+    AI NOTE: UUIDs are derived from SHA-256 hash of row content, not random.
+    This ensures reproducibility: re-running the script on identical input
+    produces identical record_ids. This is critical for provenance tracking
+    and allows verification that L0 data hasn't changed between runs.
+    """
     for row in rows:
         # Create deterministic UUID from row content
         content = "|".join(str(v) for v in row.values())

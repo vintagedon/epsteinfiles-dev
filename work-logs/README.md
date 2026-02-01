@@ -19,6 +19,7 @@ work-logs/
 ├── 01-ideation-and-setup/          # M01: Repo scaffolding, docs, initial commit
 ├── 02-github-project-frameout/     # M02: Labels, milestones, tasks
 ├── 03-source-evaluation-import/    # M03: Source evaluation, L0 import
+├── 04-layer-0-validation/          # M04: Schema definition, quality audit
 ├── milestones-one-and-two-procedures.md
 └── README.md                       # This file
 ```
@@ -32,6 +33,7 @@ work-logs/
 | M01: Ideation & Setup | [01-ideation-and-setup/](01-ideation-and-setup/) | ✅ Complete |
 | M02: GitHub Project Frameout | [02-github-project-frameout/](02-github-project-frameout/) | ✅ Complete |
 | M03: Source Evaluation & Import | [03-source-evaluation-import/](03-source-evaluation-import/) | ✅ Complete |
+| M04: Layer 0 Validation | [04-layer-0-validation/](04-layer-0-validation/) | ✅ Complete |
 
 ---
 
