@@ -182,7 +182,7 @@ def decompose_multi_person(name):
         ]
     
     # Pattern: Surname First1 & First2 (no comma)
-    match = re.match(r'^(\w+)\s+(.+?)\s*&\s*(.+)$', name)
+    match = re.match(r'^([^\s,]+)\s+(.+?)\s*&\s*(.+)$', name)
     if match:
         surname, first1, first2 = match.groups()
         return [
