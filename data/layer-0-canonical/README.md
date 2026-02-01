@@ -39,7 +39,7 @@ layer-0-canonical/
 
 | Dataset | Records | Columns | Coverage |
 |---------|---------|---------|----------|
-| [flight-logs.csv](flight-logs.csv) | 5,001 | 22 | Jan 1996 – Sep 2002 |
+| [flight-logs.csv](flight-logs.csv) | 5,001 | 22 | 1995 – 2015 |
 | [black-book.csv](black-book.csv) | 2,324 | 17 | 95 pages |
 
 ---
