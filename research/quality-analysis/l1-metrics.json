@@ -1,0 +1,96 @@
+{
+  "validation_date": "2026-02-01T19:25:49.785009",
+  "database": "epsteinfiles_ard",
+  "record_counts": {
+    "core.flight_logs": 5001,
+    "core.black_book": 2324,
+    "l1.flight_events": 1491,
+    "l1.flight_passengers": 5001,
+    "l1.contacts": 2324,
+    "l1.contact_persons": 2610,
+    "l1.phone_numbers": 5585,
+    "l1.identity_mentions": 6783
+  },
+  "completeness": {
+    "flight_logs_without_l1": 0,
+    "black_book_without_l1": 0,
+    "complete": true
+  },
+  "flight_passengers": {
+    "confidence_distribution": {
+      "1.0": 4118,
+      "0.7": 128,
+      "0.3": 189,
+      "0.1": 128,
+      "0.0": 438
+    },
+    "potential_victims": 128,
+    "suppressed": 566,
+    "public_count": 4435,
+    "total": 5001
+  },
+  "contacts": {
+    "entity_type_distribution": {
+      "individual": 1777,
+      "household": 289,
+      "organization": 226,
+      "unknown": 32
+    },
+    "country_mapped": 1525,
+    "country_unmapped": 0,
+    "country_missing": 799,
+    "total": 2324
+  },
+  "phone_numbers": {
+    "valid": 2633,
+    "invalid": 2952,
+    "total": 5585,
+    "valid_percent": 47.1,
+    "by_type": {
+      "general": {
+        "total": 2955,
+        "valid": 1227
+      },
+      "home": {
+        "total": 1099,
+        "valid": 603
+      },
+      "work": {
+        "total": 806,
+        "valid": 403
+      },
+      "mobile": {
+        "total": 725,
+        "valid": 400
+      }
+    }
+  },
+  "identity_mentions": {
+    "source_distribution": {
+      "contact_persons": 2348,
+      "flight_passengers": 4435
+    },
+    "parse_type_distribution": {
+      "Person": 6018,
+      "Corporation": 759,
+      "Household": 6
+    },
+    "with_soundex": 6526,
+    "unique_soundex_codes": 885,
+    "avg_per_block": 7.4,
+    "parse_confidence": {
+      "high": 5576,
+      "medium": 1150,
+      "low": 57
+    },
+    "total": 6783
+  },
+  "cross_dataset": {
+    "overlapping_soundex_codes": 134,
+    "exact_name_matches": 22
+  },
+  "summary": {
+    "all_pass": true,
+    "issues": []
+  }
+}
