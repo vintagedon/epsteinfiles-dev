@@ -293,7 +293,7 @@ CREATE TABLE IF NOT EXISTS l1.identity_mentions (
     parsed_nickname VARCHAR(100),
     
     -- Parse metadata
-    parse_type VARCHAR(20),       -- 'Person', 'Corporation', 'Unknown', 'Household'
+    parse_type VARCHAR(20) CHECK (parse_type IN ('Person', 'Corporation', 'Household', 'Unknown')),
     parse_confidence DECIMAL(3,2),
     
     -- Blocking codes (for entity resolution)
